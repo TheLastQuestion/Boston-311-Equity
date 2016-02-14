@@ -1,6 +1,6 @@
 # Boston-311-Equity
 Does 311 further privilege the haves vs. the have-nots? What should 311 do to offset these risks if they exist?
-https://cloud.githubusercontent.com/assets/4867904/13030885/739ef02a-d287-11e5-9620-99473d5ff5a3.png
+![example](https://cloud.githubusercontent.com/assets/4867904/13030885/739ef02a-d287-11e5-9620-99473d5ff5a3.png)
 
 In 2015/16 Bryant Renaud and Nick Ryan set out whether Boston's 311 system is being used equally by members of historically
   advantaged and disadvantaged groups equivalently. This repo contains scripts we wrote to get at this question. Having 
