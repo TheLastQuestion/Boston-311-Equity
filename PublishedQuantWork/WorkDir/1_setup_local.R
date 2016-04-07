@@ -8,7 +8,7 @@
 #===================================================
 
 # ----- set up work directory
-setwd(dirname(file.choose())) # find a file in workdir
+#setwd(dirname(file.choose())) # find a file in workdir
 
 ### libraries
 #===================================================

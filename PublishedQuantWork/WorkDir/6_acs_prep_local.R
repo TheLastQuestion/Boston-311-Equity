@@ -5,9 +5,7 @@
 ## Bryant Renaud + Nick Ryan
 #===================================================
 
-# ----- set up work directory
-#setwd(dirname(file.choose())) # find a file in workdir
-
+workdir2 <- workdir
 
 ### setting work dir
 bryant <- "C:/Dropbox/On Device/!HKS_Spring_16/PAE2/QuantWork/"
@@ -157,7 +155,14 @@ acs.full$pct_grad <- acs.full$pct_grad * 100
 ## joining map + acs data
 plotData <- merge(plotData, acs.full,by="id")
 dataByTract <- merge(ticketsByTract, acs.full,by="id")
-
+dataByTract <- merge(dataByTract, overdue_tract, by="id")
+dataByTract$pct_overdue <- dataByTract$pct_overdue*100
+dataByTract <- merge(dataByTract, ticketsByTract11, by="id")
+dataByTract <- merge(dataByTract, ticketsByTract12, by="id")
+dataByTract <- merge(dataByTract, ticketsByTract13, by="id")
+dataByTract <- merge(dataByTract, ticketsByTract14, by="id")
+dataByTract <- merge(dataByTract, ticketsByTract.constit, by="id")
+dataByTract <- merge(dataByTract, ticketsByTract.app, by="id")
 
 # ----- creating per capita 311 tickets variable in plot data
 plotData$pc_count <- as.numeric(as.character(plotData$reqs)) /
@@ -165,6 +170,12 @@ plotData$pc_count <- as.numeric(as.character(plotData$reqs)) /
 
 # ----- per capita 311 tickets regression data
 dataByTract$pc_count <- as.numeric(dataByTract$count)/as.numeric(dataByTract$pop)
+dataByTract$pc_count_11 <- as.numeric(dataByTract$count11)/as.numeric(dataByTract$pop)
+dataByTract$pc_count_12 <- as.numeric(dataByTract$count12)/as.numeric(dataByTract$pop)
+dataByTract$pc_count_13 <- as.numeric(dataByTract$count13)/as.numeric(dataByTract$pop)
+dataByTract$pc_count_14 <- as.numeric(dataByTract$count14)/as.numeric(dataByTract$pop)
+dataByTract$pc_count_constit <- as.numeric(dataByTract$count_constit)/as.numeric(dataByTract$pop)
+dataByTract$pc_count_app <- as.numeric(dataByTract$count_app)/as.numeric(dataByTract$pop)
 
 # ----- creating df with neighborhood labels & cleaning
 label_points <- coordinates(bos_neighbs_raw)
@@ -213,7 +224,86 @@ neighb_labels$NAME2 <- ifelse(neighb_labels$NAME == "Allston-Brighton",
                                                                                              "Hyde \n Park",
                                                                                              as.character(neighb_labels$NAME)))))))))))
 
+# ----- fixing some column names
+colnames(plotData)[20] <- "reqs14"
+colnames(plotData)[21] <- "reqs13"
+colnames(plotData)[22] <- "reqs12"
+colnames(plotData)[23] <- "reqs11"
+
 # ----- setting tracts with bad data to NA
+plotData$reqs <- ifelse(plotData$id=="981000" |
+                              plotData$id=="981201" |
+                              plotData$id=="981501" |
+                              plotData$id=="981502" |
+                              plotData$id=="981600" |
+                              plotData$id=="981700" |
+                              plotData$id=="980700" |
+                              plotData$id=="981800" |
+                              plotData$id=="980700" |
+                              plotData$id=="980300" |
+                              plotData$id=="981100" |
+                              plotData$id=="981202",NA,plotData$reqs)
+plotData$reqs14 <- ifelse(plotData$id=="981000" |
+                          plotData$id=="981201" |
+                          plotData$id=="981501" |
+                          plotData$id=="981502" |
+                          plotData$id=="981600" |
+                          plotData$id=="981700" |
+                          plotData$id=="980700" |
+                          plotData$id=="981800" |
+                          plotData$id=="980700" |
+                          plotData$id=="980300" |
+                          plotData$id=="981100" |
+                          plotData$id=="981202",NA,plotData$reqs14)
+plotData$reqs13 <- ifelse(plotData$id=="981000" |
+                            plotData$id=="981201" |
+                            plotData$id=="981501" |
+                            plotData$id=="981502" |
+                            plotData$id=="981600" |
+                            plotData$id=="981700" |
+                            plotData$id=="980700" |
+                            plotData$id=="981800" |
+                            plotData$id=="980700" |
+                            plotData$id=="980300" |
+                            plotData$id=="981100" |
+                            plotData$id=="981202",NA,plotData$reqs13)
+plotData$reqs12 <- ifelse(plotData$id=="981000" |
+                            plotData$id=="981201" |
+                            plotData$id=="981501" |
+                            plotData$id=="981502" |
+                            plotData$id=="981600" |
+                            plotData$id=="981700" |
+                            plotData$id=="980700" |
+                            plotData$id=="981800" |
+                            plotData$id=="980700" |
+                            plotData$id=="980300" |
+                            plotData$id=="981100" |
+                            plotData$id=="981202",NA,plotData$reqs12)
+plotData$reqs11 <- ifelse(plotData$id=="981000" |
+                            plotData$id=="981201" |
+                            plotData$id=="981501" |
+                            plotData$id=="981502" |
+                            plotData$id=="981600" |
+                            plotData$id=="981700" |
+                            plotData$id=="980700" |
+                            plotData$id=="981800" |
+                            plotData$id=="980700" |
+                            plotData$id=="980300" |
+                            plotData$id=="981100" |
+                            plotData$id=="981202",NA,plotData$reqs11)
+
+
+
+
+
+
+
+
+
+
+
+
+
 plotData$pc_count <- ifelse(plotData$id=="981000" |
                               plotData$id=="981201" |
                               plotData$id=="981501" |
@@ -238,6 +328,114 @@ dataByTract$pc_count <- ifelse(dataByTract$id=="981000" |
                                  dataByTract$id=="980300" |
                                  dataByTract$id=="981100" |
                                  dataByTract$id=="981202",NA,dataByTract$pc_count)
+dataByTract$pc_count_11 <- ifelse(dataByTract$id=="981000" |
+                                 dataByTract$id=="981201" |
+                                 dataByTract$id=="981501" |
+                                 dataByTract$id=="981502" |
+                                 dataByTract$id=="981600" |
+                                 dataByTract$id=="981700" |
+                                 dataByTract$id=="980700" |
+                                 dataByTract$id=="981800" |
+                                 dataByTract$id=="980700" |
+                                 dataByTract$id=="980300" |
+                                 dataByTract$id=="981100" |
+                                 dataByTract$id=="981202",NA,dataByTract$pc_count_11)
+dataByTract$pc_count_12 <- ifelse(dataByTract$id=="981000" |
+                                   dataByTract$id=="981201" |
+                                   dataByTract$id=="981501" |
+                                   dataByTract$id=="981502" |
+                                   dataByTract$id=="981600" |
+                                   dataByTract$id=="981700" |
+                                   dataByTract$id=="980700" |
+                                   dataByTract$id=="981800" |
+                                   dataByTract$id=="980700" |
+                                   dataByTract$id=="980300" |
+                                   dataByTract$id=="981100" |
+                                   dataByTract$id=="981202",NA,dataByTract$pc_count_12)
+dataByTract$pc_count_13 <- ifelse(dataByTract$id=="981000" |
+                                   dataByTract$id=="981201" |
+                                   dataByTract$id=="981501" |
+                                   dataByTract$id=="981502" |
+                                   dataByTract$id=="981600" |
+                                   dataByTract$id=="981700" |
+                                   dataByTract$id=="980700" |
+                                   dataByTract$id=="981800" |
+                                   dataByTract$id=="980700" |
+                                   dataByTract$id=="980300" |
+                                   dataByTract$id=="981100" |
+                                   dataByTract$id=="981202",NA,dataByTract$pc_count_13)
+dataByTract$pc_count_14 <- ifelse(dataByTract$id=="981000" |
+                                   dataByTract$id=="981201" |
+                                   dataByTract$id=="981501" |
+                                   dataByTract$id=="981502" |
+                                   dataByTract$id=="981600" |
+                                   dataByTract$id=="981700" |
+                                   dataByTract$id=="980700" |
+                                   dataByTract$id=="981800" |
+                                   dataByTract$id=="980700" |
+                                   dataByTract$id=="980300" |
+                                   dataByTract$id=="981100" |
+                                   dataByTract$id=="981202",NA,dataByTract$pc_count_14)
+
+dataByTract$pc_count_constit <- ifelse(dataByTract$id=="981000" |
+                                   dataByTract$id=="981201" |
+                                   dataByTract$id=="981501" |
+                                   dataByTract$id=="981502" |
+                                   dataByTract$id=="981600" |
+                                   dataByTract$id=="981700" |
+                                   dataByTract$id=="980700" |
+                                   dataByTract$id=="981800" |
+                                   dataByTract$id=="980700" |
+                                   dataByTract$id=="980300" |
+                                   dataByTract$id=="981100" |
+                                   dataByTract$id=="981202",NA,dataByTract$pc_count_constit)
+dataByTract$pc_count_app <- ifelse(dataByTract$id=="981000" |
+                                   dataByTract$id=="981201" |
+                                   dataByTract$id=="981501" |
+                                   dataByTract$id=="981502" |
+                                   dataByTract$id=="981600" |
+                                   dataByTract$id=="981700" |
+                                   dataByTract$id=="980700" |
+                                   dataByTract$id=="981800" |
+                                   dataByTract$id=="980700" |
+                                   dataByTract$id=="980300" |
+                                   dataByTract$id=="981100" |
+                                   dataByTract$id=="981202",NA,dataByTract$pc_count_app)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 plotData$pct_white <- ifelse(plotData$id=="981000" |
                                  plotData$id=="981201" |
@@ -338,6 +536,30 @@ dataByTract$pct_black <- ifelse(dataByTract$id=="981000" |
                                 dataByTract$id=="980300" |
                                   dataByTract$id=="981100" |
                                 dataByTract$id=="981202",NA,dataByTract$pct_black)
+plotData$pct_overdue <- ifelse(plotData$id=="981000" |
+                               plotData$id=="981201" |
+                               plotData$id=="981501" |
+                               plotData$id=="981502" |
+                               plotData$id=="981600" |
+                               plotData$id=="981700" |
+                               plotData$id=="980700" |
+                               plotData$id=="981800" |
+                               plotData$id=="980700" |
+                               plotData$id=="980300" |
+                               plotData$id=="981100" |
+                               plotData$id=="981202",NA,plotData$pct_overdue)
+dataByTract$pct_overdue <- ifelse(dataByTract$id=="981000" |
+                                  dataByTract$id=="981201" |
+                                  dataByTract$id=="981501" |
+                                  dataByTract$id=="981502" |
+                                  dataByTract$id=="981600" |
+                                  dataByTract$id=="981700" |
+                                  dataByTract$id=="980700" |
+                                  dataByTract$id=="981800" |
+                                  dataByTract$id=="980700" |
+                                  dataByTract$id=="980300" |
+                                  dataByTract$id=="981100" |
+                                  dataByTract$id=="981202",NA,dataByTract$pct_overdue)
 
 # ----- combining enrolment variables and cleaning
 plotData$pct_enrol <- plotData$pct_grad + plotData$pct_undergrad
