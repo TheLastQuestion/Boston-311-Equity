@@ -20,9 +20,10 @@
 
 
 # ----- If files are downloaded, run these to pull data locally
-Sys.setenv("plotly_username" = "your user name")
-Sys.setenv("plotly_api_key" = "your api")
-
+Sys.setenv("plotly_username" = "bryantrenaud")
+Sys.setenv("plotly_api_key" = "f8dd9jduxd")
+workdir <- dirname(file.choose())
+setwd(workdir) # find a file in workdir
 source("1_setup_local.R", echo = TRUE)
 source("2_missingness.R", echo = TRUE)
 source("3_subset_exp_dataset.R", echo = TRUE)
@@ -31,5 +32,6 @@ source("5_shapefile_prep_local.R", echo = TRUE)
 source("6_acs_prep_local.R", echo = TRUE)
 source("7_mapping.R", echo = TRUE)
 source("8_equity_regressions.R", echo = TRUE)
+source("9_overdue_analysis.R", echo = TRUE)
 
 
